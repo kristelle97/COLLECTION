@@ -4,19 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\CollectionItem;
+use App\Models\Collection;
 
-class Collection extends Model
+class CollectionItem extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'title',
+        'collection_id',
         'description',
     ];
 
-    public function items()
+    public function collection()
     {
-        return $this->hasMany(CollectionItem::class);
+        return $this->belongsTo(Collection::class);
     }
 }

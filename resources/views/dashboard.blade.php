@@ -63,6 +63,7 @@
                                         <button>Delete</button>
                                     </form>
                                     <a href="/collection/{{$collection->id}}">Edit</a>
+                                    <a href="/collection/{{$collection->name}}/items">See Collection Items</a>
                                 </div>
                             </div>
                         @endforeach

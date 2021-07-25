@@ -10,19 +10,18 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
-                    <form action="/collection/{{$collection->id}}" method="PUT" class="form-horizontal">
+                    <form action="/collection/{{$collection->id}}" method="POST" class="form-horizontal">
                     @csrf
-
                     <!-- Collection Name -->
                         <div class="form-group">
                             <label for="title" class="col-sm-3 control-label">Title</label>
 
                             @error('title')
-                            <div class="alert alert-danger">{{ $message }}</div>
+                              <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
 
                             <div class="col-sm-6">
-                                <input type="text" name="title" id="collection-title" class="form-control">
+                                <input type="text" name="title" id="collection-title" class="form-control" value="{{$collection->title}}">
                             </div>
 
                         </div>
@@ -32,11 +31,54 @@
                             <label for="description" class="col-sm-3 control-label">Description</label>
 
                             @error('description')
-                            <div class="alert alert-danger">{{ $message }}</div>
+                              <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
 
                             <div class="col-sm-6">
-                                <input type="text" name="description" id="collection-description" class="form-control">
+                                <input type="text" name="description" id="collection-description" class="form-control" value="{{$collection->description}}">
+                            </div>
+
+                        </div>
+
+                        <!-- Add Task Button -->
+                        <div>
+                          <form action="/collection/{{ $collection->id }}" method="POST">
+                              @csrf
+                              @method('PUT')
+                              <button>Update</button>
+                          </form>
+                    </form>
+                  </div>
+
+                  <div>
+                    <h1>Add Item to Collection</h1>
+                    <form action="/collection/{{$collection->id}}/item" method="POST" class="form-horizontal">
+                    @csrf
+
+                    <!-- Collection Name -->
+                        <div class="form-group">
+                            <label for="title" class="col-sm-3 control-label">Title</label>
+
+                            @error('title')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+
+                            <div class="col-sm-6">
+                                <input type="text" name="title" id="item-title" class="form-control">
+                            </div>
+
+                        </div>
+
+                        <!-- Collection Description -->
+                        <div class="form-group">
+                            <label for="description" class="col-sm-3 control-label">Description</label>
+
+                            @error('description')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+
+                            <div class="col-sm-6">
+                                <input type="text" name="description" id="item-description" class="form-control">
                             </div>
 
                         </div>
@@ -45,13 +87,30 @@
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">
                                 <button type="submit" class="btn btn-default">
-                                    Update Collection
+                                    Create Item
                                 </button>
                             </div>
                         </div>
-                    </form>
+                   </form>
 
-            </div>
+                   @if (count($items) > 0)
+                       @foreach ($items as $item)
+                           <div class="card">
+                               <div class="container">
+                                   <h4><b>{{$item->title}}</b></h4>
+                                   <p>{{$item->description}}</p>
+                                   <form action="/collection/{{ $collection->id }}/item/{{$item->id}}" method="POST">
+                                       @csrf
+                                       @method('DELETE')
+                                       <button>Delete</button>
+                                   </form>
+                                   <a href="/collection/{{$collection->id}}/item/{{$item->id}}">Edit</a>
+                               </div>
+                           </div>
+                       @endforeach
+                   @endif
+
+                  </div>
         </div>
     </div>
     </div>
