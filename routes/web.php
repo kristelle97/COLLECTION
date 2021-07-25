@@ -60,4 +60,38 @@ Route::delete('/collection/{id}', function ($id) {
     return redirect('/dashboard');
 });
 
+/**
+ * Update An Existing Task
+ */
+Route::get('/collection/{id}', function ($id) {
+    $collection = \App\Models\Collection::findOrFail($id);
+
+    return view('edit_collection', [
+        'collection' => $collection
+    ]);
+});
+
+Route::put('/collection/{id}', function ($id, $request) {
+
+    $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+        'title' => 'required|max:255',
+        'description'=>'required',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect('/dashboard')
+            ->withInput()
+            ->withErrors($validator);
+    }
+
+    $collection = \App\Models\Collection::findOrFail($id);
+
+    $collection->update([
+        'title' => $request->title,
+        'description' => $request->description,
+    ]);
+
+    return redirect('/dashboard');
+});
+
 require __DIR__.'/auth.php';
