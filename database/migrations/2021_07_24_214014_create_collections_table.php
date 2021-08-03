@@ -16,6 +16,7 @@ class CreateCollectionsTable extends Migration
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignId('user_id')->constrained('users');
             $table->string('title');
             $table->text('description');
         });

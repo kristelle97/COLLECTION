@@ -10,9 +10,9 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
-                    <form action="/collection/{{$collection->id}}/item/{{$item->id}}" method="POST" class="form-horizontal">
+                    <form action="{{route('collection.edit',$collection->id)}}" method="POST" class="form-horizontal">
                     @csrf
-                    <!-- Item Name -->
+                    <!-- Collection Name -->
                         <div class="form-group">
                             <label for="title" class="col-sm-3 control-label">Title</label>
 
@@ -21,12 +21,12 @@
                             @enderror
 
                             <div class="col-sm-6">
-                                <input type="text" name="title" id="item-title" class="form-control" value="{{$item->title}}">
+                                <input type="text" name="title" id="collection-title" class="form-control" value="{{$collection->title}}">
                             </div>
 
                         </div>
 
-                        <!-- Item Description -->
+                        <!-- Collection Description -->
                         <div class="form-group">
                             <label for="description" class="col-sm-3 control-label">Description</label>
 
@@ -35,14 +35,14 @@
                             @enderror
 
                             <div class="col-sm-6">
-                                <input type="text" name="description" id="item-description" class="form-control" value="{{$item->description}}">
+                                <input type="text" name="description" id="collection-description" class="form-control" value="{{$collection->description}}">
                             </div>
 
                         </div>
 
-                        <!-- Update Item Button -->
+                        <!-- Add Task Button -->
                         <div>
-                          <form action="/collection/{{$collection->id }}/item/{{$item->id}}" method="POST">
+                          <form action="{{route('collection.update',$collection->id)}}" method="POST">
                               @csrf
                               @method('PUT')
                               <button>Update</button>
@@ -50,9 +50,6 @@
                     </form>
                   </div>
 
-                  <div>
-
-                  </div>
         </div>
     </div>
     </div>
