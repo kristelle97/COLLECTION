@@ -16,19 +16,24 @@ class CollectionController extends Controller
 
     public function store(Request $request){
       $this->authorize('store', \App\Models\Collection::class);
+
       $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
           'title' => 'required|max:255',
           'description'=>'required',
+          'collection-image'=>'required|image|mimes:jpeg,png,jpg,gif',
       ]);
 
       if ($validator->fails()) {
           return redirect()->route('dashboard')->withInput()->withErrors($validator);
       }
 
+      $file = $request->file('collection-image')->store('collections','public');
+
       \App\Models\Collection::create([
           'user_id'=> auth()->id(),
           'title' => $request->title,
           'description' => $request->description,
+          'file_path'=>$file,
       ]);
 
       return redirect()->route('dashboard');
@@ -59,17 +64,27 @@ class CollectionController extends Controller
       $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
           'title' => 'required|max:255',
           'description'=>'required',
+          'collection-image'=>'image|mimes:jpeg,png,jpg,gif',
       ]);
 
       if ($validator->fails()) {
           return redirect()->route('dashboard')->withInput()->withErrors($validator);
       }
 
+      if ($request->file('collection-image') == null){
+        $file = $collection->file_path;
+      }
+      else{
+        $file = $request->file('collection-image')->store('collections','public');
+      }
+
       $collection->update([
           'title' => $request->title,
           'description' => $request->description,
+          'file_path'=>$file,
       ]);
 
       return redirect()->route('dashboard');
     }
+
 }

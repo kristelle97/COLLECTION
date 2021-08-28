@@ -4,16 +4,16 @@ namespace App\View\Components\Forms;
 
 use Illuminate\View\Component;
 
-class FormsGroup extends Component
+class SubmitButton extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-
     public function __construct()
     {
+        //
     }
 
     /**
@@ -23,6 +23,6 @@ class FormsGroup extends Component
      */
     public function render()
     {
-        return view('components.forms.form-group');
+        return view('components.forms.submit-button');
     }
 }

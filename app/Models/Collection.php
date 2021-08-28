@@ -16,6 +16,7 @@ class Collection extends Model
         'user_id',
         'title',
         'description',
+        'file_path',
     ];
 
     public function items()

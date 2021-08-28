@@ -20,16 +20,20 @@ class ItemController extends Controller
       $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
           'title' => 'required|max:255',
           'description'=>'required',
+          'item-image'=>'required|image|mimes:jpeg,png,jpg,gif',
       ]);
 
       if ($validator->fails()) {
           return redirect()->route('dashboard')->withInput()->withErrors($validator);
       }
 
+      $file = $request->file('item-image')->store('items','public');
+
       \App\Models\CollectionItem::create([
           'collection_id'=>$collectionId,
           'title' => $request->title,
           'description' => $request->description,
+          'file_path'=>$file,
       ]);
       return redirect()->route('collection.item.index',$collectionId);
     }
@@ -53,6 +57,7 @@ class ItemController extends Controller
       $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
           'title' => 'required|max:255',
           'description'=>'required',
+          'item-image'=>'image|mimes:jpeg,png,jpg,gif',
       ]);
 
       if ($validator->fails()) {
@@ -61,9 +66,17 @@ class ItemController extends Controller
 
       $item = \App\Models\CollectionItem::findOrFail($itemId);
 
+      if ($request->file('item-image') == null){
+        $file = $item->file_path;
+      }
+      else{
+        $file = $request->file('item-image')->store('items','public');
+      }
+
       $item->update([
           'title' => $request->title,
           'description' => $request->description,
+          'file_path'=>$file,
       ]);
 
       return redirect()->route('collection.item.index',$collectionId);

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +20,13 @@ use App\Http\Controllers\ItemController;
  // Display All Collections
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('/profile', function () {
+        return view('users/user-profile');
+    })->name('profile');
 
     Route::get('/dashboard', [CollectionController::class,'index'])->name('dashboard');
 
@@ -40,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
       });
 
   });
+
 });
 
 require __DIR__.'/auth.php';

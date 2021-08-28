@@ -19,6 +19,7 @@ class CreateCollectionItemsTable extends Migration
             $table->foreignId('collection_id')->constrained('collections');
             $table->string('title');
             $table->text('description');
+            $table->string('file_path');
         });
     }
 

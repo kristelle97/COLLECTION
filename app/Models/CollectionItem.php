@@ -14,10 +14,16 @@ class CollectionItem extends Model
         'title',
         'collection_id',
         'description',
+        'file_path',
     ];
 
     public function collection()
     {
         return $this->belongsTo(Collection::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
