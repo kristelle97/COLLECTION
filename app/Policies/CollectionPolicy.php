@@ -14,6 +14,10 @@ class CollectionPolicy
         return true;
     }
 
+    public function display_collections (User $user) {
+        return true;
+    }
+
     public function store (User $user) {
         return true;
     }

@@ -8,7 +8,15 @@
     <div class="py-12 justify-center">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+
+              <div x-data={show:false}>
+                  <p class="flex">
+                      <a x-on:click.prevent="show=!show" class="text-gray-500 rounded hover:text-blue-500 px-8 py-3 cursor-pointer focus:outline-none mr-2">
+                      <i class="far fa-plus-square"></i> New Collection
+                      </a>
+                  </p>
+
+                <div x-show="show" class="p-6">
 
                     <form action="{{route('collection.store')}}" enctype="multipart/form-data" method="POST" class="w-full max-w-s bg-white pt-6 rounded">
                     @csrf
@@ -30,16 +38,26 @@
                             <input type="file" name="collection-image" required>
                         </div>
 
+                        <div class="md:flex md:justify-center mb-6">
+                          <select id="collectionTag" name="tag" class="rounded border-none py-2 px-4 block whitespace-no-wrap hover:text-blue-500">
+                            <option>Type of Collection</option>
+                            @foreach ($tags['tags'] as $tag)
+                              <option>{{$tag}}</option>
+                            @endforeach
+                          </select>
+                        </div>
+
                         <!-- Add Collection Button -->
                         <x-forms.submit-button>Create Collection</x-forms.submit-button>
 
                     </form>
+                  </div>
+                </div>
 
                     @if (count($collections) > 0)
                     <div class="flex justify-center md:justify-start flex-wrap mb-6">
                         @foreach ($collections as $collection)
 
-                            @if ($collection->user_id == Auth::user()->id)
                               <div class=" w-full lg:max-w-full flex flex-wrap content-start shadow-lg rounded">
                                 <div class="w-48 h-48">
                                    <img src="{{asset($collection->file_path)}}" class="object-cover h-48 w-full"></img>
@@ -47,9 +65,12 @@
                                   <div class="p-5 flex-grow w-full sm:w-auto">
                                     <div class="text-gray-900 font-bold text-xl mb-2">{{$collection->title}}</div>
                                     <p class="text-gray-700 text-base">{{$collection->description}}</p>
+                                    <p class="mb-3 mt-3 text-xs font-semibold tracking-wide uppercase">
+                                      <span class="p-1 px-2 bg-yellow-100 rounded-full bg-cover">{{$collection->tag}}</span>
+                                    </p>
                                     <div class="flex flex-row">
-                                    <i class="fas fa-user-tie mt-4"></i>
-                                    <div class="text-sm mt-4">
+                                      <img class="rounded-full w-12 h-12" src="{{asset($collection->user->file_path)}}"></img>
+                                    <div class="text-sm mt-4 pl-4">
                                       <p class="text-gray-900 leading-none">{{$collection->user->name}}</p>
                                       <p class="text-gray-600">{{$collection->created_at}}</p>
                                     </div>
@@ -61,8 +82,6 @@
                                     <a href="{{route('collection.item.index', $collection->id)}}" class="bg-transparent text-gray-400 font-semibold hover:text-blue-800 py-2 px-2"><i class="fas fa-expand"></i></a>
                                   </div>
                                 </div>
-                                @endif
-
 
                         @endforeach
 

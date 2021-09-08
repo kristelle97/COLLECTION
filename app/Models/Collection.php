@@ -16,6 +16,7 @@ class Collection extends Model
         'user_id',
         'title',
         'description',
+        'tag',
         'file_path',
     ];
 

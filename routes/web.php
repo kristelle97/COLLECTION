@@ -18,9 +18,11 @@ use App\Http\Controllers\UserController;
 
 
  // Display All Collections
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('welcome');
+
+Route::get('/', [CollectionController::class,'display_collections'])->name('welcome');
 
 Route::group(['middleware' => 'auth'], function () {
 

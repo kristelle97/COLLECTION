@@ -6,10 +6,25 @@ use Illuminate\Http\Request;
 
 class CollectionController extends Controller
 {
-    public function index(){
-      $collections = \App\Models\Collection::orderBy('created_at', 'asc')->paginate(10);
+    public function index(Request $request){
+      $collections = $request->user()->collections()->paginate(10);
       $this->authorize('index', \App\Models\Collection::class);
+
+      $path = storage_path('json/collectiontypes.json');
+      $json = trim(file_get_contents($path));
+      $tags = json_decode($json, true);
+
+
       return view('collection.dashboard', [
+          'collections' => $collections,
+          'tags' => $tags,
+      ]);
+    }
+
+    public function display_collections(){
+      $collections = \App\Models\Collection::orderBy('created_at', 'asc')->paginate(10);
+      $this->authorize('display_collections', \App\Models\Collection::class);
+      return view('welcome', [
           'collections' => $collections
       ]);
     }
@@ -20,6 +35,7 @@ class CollectionController extends Controller
       $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
           'title' => 'required|max:255',
           'description'=>'required',
+          'tag'=>'required',
           'collection-image'=>'required|image|mimes:jpeg,png,jpg,gif',
       ]);
 
@@ -33,6 +49,7 @@ class CollectionController extends Controller
           'user_id'=> auth()->id(),
           'title' => $request->title,
           'description' => $request->description,
+          'tag'=> $request->tag,
           'file_path'=>$file,
       ]);
 

@@ -19,6 +19,7 @@ class CreateCollectionsTable extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string('title');
             $table->text('description');
+            $table->text('tag');
             $table->string('file_path');
         });
     }
