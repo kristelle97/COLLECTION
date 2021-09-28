@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/{collectionId}', [CollectionController::class,'destroy'])->name('destroy');
         Route::get('/{collectionId}', [CollectionController::class, 'edit'])->name('edit');
         Route::put('/{collectionId}', [CollectionController::class,'update'])->name('update');
+        Route::post('/{collectionId}', [CollectionController::class,'toggle_like'])->name('like');
 
         Route::group(['prefix' => '{collectionId}/item', 'as' => 'item.'], function () {
             Route::post('/', [ItemController::class,'store'])->name('store');
@@ -44,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/list', [ItemController::class,'index'])->name('index');
             Route::get('/{itemId}', [ItemController::class,'edit'])->name('edit');
             Route::put('/{itemId}', [ItemController::class,'update'])->name('update');
+            Route::post('/{itemId}/like', [ItemController::class,'toggle_like'])->name('like');
       });
 
   });

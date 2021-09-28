@@ -11,6 +11,7 @@ use App\Models\User;
 class Collection extends Model
 {
     use HasFactory;
+    use \Conner\Likeable\Likeable;
 
     protected $fillable = [
         'user_id',

@@ -9,6 +9,7 @@ use App\Models\Collection;
 class CollectionItem extends Model
 {
     use HasFactory;
+    use \Conner\Likeable\Likeable;
 
     protected $fillable = [
         'title',

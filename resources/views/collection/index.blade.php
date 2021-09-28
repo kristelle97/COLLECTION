@@ -1,7 +1,7 @@
 <x-guest-layout>
         <div class="pl-8 pr-8">
             @if (Route::has('login'))
-                <div class="fixed top-0 right-0 px-6 py-4 mb-8 sm:block">
+                <div class="hidden fixed top-0 right-0 px-6 py-4 mb-8 sm:block">
                     @auth
                         <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>
                     @else
@@ -14,13 +14,13 @@
                 </div>
             @endif
 
-            <div class='flex mt-12 mb-4'>
+            <div class='flex mt-24'>
               <h1>All Users' Collections</h1>
             </div>
 
-            <form action="{{route('welcome')}}" enctype="multipart/form-data" method="GET">
+            <form action="{{route('index')}}" enctype="multipart/form-data" method="GET">
             @csrf
-            <div class="flex justify-center mb-6">
+            <div class="md:flex md:justify-center mb-6">
               <select id="collectionTag" name="tag" class="rounded border-none py-2 px-4 block whitespace-no-wrap hover:text-blue-500">
                 <option value="" disabled selected hidden>Filter by Collection Type</option>
                 @foreach ($tags['tags'] as $tag)
@@ -37,7 +37,7 @@
             </div>
             <div>
               @if (request()->has('tag'))
-              <a href="{{route('welcome')}}" class="bg-transparent text-gray-400 font-semibold hover:text-blue-800 py-2 px-2">Clear Filter</a>
+              <a href="{{route('index')}}" class="bg-transparent text-gray-400 font-semibold hover:text-blue-800 py-2 px-2">Clear Filter</a>
               @endif
             </div>
           </div>
@@ -45,10 +45,10 @@
           </form>
 
               @if (count($collections) > 0)
-              <div class=" mb-6 grid lg:grid-cols-2 gap-4 grid-cols-1 mt-8">
+              <div class="flex justify-start md:justify-start flex-wrap mb-6">
                   @foreach ($collections as $collection)
                         <div class=" w-full lg:max-w-full flex flex-wrap content-start shadow-lg rounded">
-                          <div class="md:w-48 h-48 w-full">
+                          <div class="w-48 h-48">
                              <img src="{{asset($collection->file_path)}}" class="object-cover h-48 w-full"></img>
                           </div>
                             <div class="p-5 flex-grow w-full sm:w-auto">

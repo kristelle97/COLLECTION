@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{$collection->title}} Dashboard
+            {{$collection->title}} Dashboard created by @if($collection->user_id == Auth::user()->id) you  @else {{$collection->user->name}} @endif
         </h2>
     </x-slot>
 
@@ -9,6 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
+              @if (Auth::check() && $collection->user_id == Auth::user()->id)
               <div x-data={show:false}>
                   <p class="flex">
                       <a x-on:click.prevent="show=!show" class="text-gray-500 rounded hover:text-blue-500 px-8 py-3 cursor-pointer focus:outline-none mr-2">
@@ -43,6 +44,7 @@
                   </form>
                 </div>
               </div>
+              @endif
 
               <div class="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
               <div class="grid gap-8 lg:grid-cols-3 sm:max-w-sm sm:mx-auto lg:max-w-full">
@@ -56,18 +58,34 @@
                                      <div class="text-gray-900 font-bold text-xl mb-2">{{$item->title}}</div>
                                      <p class="text-gray-700 text-base">{{$item->description}}</p>
                                      <div class="flex flex-row">
-                                       <img class="rounded-full w-12 h-12" src="{{asset($collection->user->file_path)}}"></img>
-                                     <div class="text-sm mt-4 pl-4">
-                                       <p class="text-gray-900 leading-none">{{$collection->user->name}}</p>
-                                       <p class="text-gray-600">{{$item->created_at}}</p>
-                                     </div>
+                                       <p class="text-sm text-gray-600">{{$item->created_at}}</p>
                                    </div>
                                    </div>
                                    <div class="flex w-full mb-3 justify-center items-center">
-                                     <x-forms.delete-button :action="route('collection.item.destroy',[$collection->id, $item->id])"><i class="far fa-trash-alt"></i></x-forms.delete-button>
-                                     <a href="{{route('collection.item.edit',[$collection->id, $item->id])}}" class="bg-transparent text-gray-400 font-semibold hover:text-blue-800 py-2 px-2"><i class="far fa-edit"></i></a>
-                                   </div>
+
+                                   @if (Auth::check() && $collection->user_id == Auth::user()->id)
+                                     <button action="route('collection.item.destroy',[$collection->id, $item->id])" onclick="return confirm('Are you sure?')" class='bg-transparent text-gray-400 font-semibold hover:text-blue-800 mr-8 py-2 px-2'><i class="far fa-trash-alt"></i></button>
+                                     <a href="{{route('collection.item.edit',[$collection->id, $item->id])}}" class="bg-transparent text-gray-400 font-semibold hover:text-blue-800 mr-8 py-2 px-2"><i class="far fa-edit"></i></a>
+                                  @endif
+
+                                  <div class="py-2 px-2">
+                                     <form action="{{route('collection.item.like', [$collection->id, $item->id])}}" enctype="multipart/form-data" method="POST">
+                                       @csrf
+                                     <div class="flex flex-row bg-transparent text-gray-400 font-semibold hover:text-blue-800">
+                                       <button>
+                                         @if ($item->liked())
+                                           <i class="fas fa-heart"></i>
+                                         @else
+                                           <i class="far fa-heart"></i>
+                                         @endif
+                                       </button>
+                                       <p class="pr-4">{{$item->likeCount}}</p>
+                                     </div>
+                                   </form>
                                  </div>
+
+                                 </div>
+                               </div>
                          @endforeach
                      @endif
                     </div>

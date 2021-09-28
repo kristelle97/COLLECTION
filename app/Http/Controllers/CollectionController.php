@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CollectionController extends Controller
 {
@@ -21,21 +22,32 @@ class CollectionController extends Controller
       ]);
     }
 
-    public function display_collections(){
-      $collections = \App\Models\Collection::orderBy('created_at', 'asc')->paginate(10);
+    public function display_collections(Request $request){
+      $collections = \App\Models\Collection::when($request->has('tag'),function($query) use ($request){
+        return $query->where('tag',$request->tag);
+      })->orderBy('created_at', 'asc')->paginate(10);
       $this->authorize('display_collections', \App\Models\Collection::class);
+      $path = storage_path('json/collectiontypes.json');
+      $json = trim(file_get_contents($path));
+      $tags = json_decode($json, true);
       return view('welcome', [
-          'collections' => $collections
+          'collections' => $collections,
+          'tags' => $tags,
       ]);
     }
 
     public function store(Request $request){
-      $this->authorize('store', \App\Models\Collection::class);
+
+      $path = storage_path('json/collectiontypes.json');
+      $json = trim(file_get_contents($path));
+      $tags = json_decode($json, true);
+
+      // dd($tags);
 
       $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
           'title' => 'required|max:255',
           'description'=>'required',
-          'tag'=>'required',
+          'tag'=>['required',in_array($request->tag,$tags)],
           'collection-image'=>'required|image|mimes:jpeg,png,jpg,gif',
       ]);
 
@@ -45,13 +57,15 @@ class CollectionController extends Controller
 
       $file = $request->file('collection-image')->store('collections','public');
 
-      \App\Models\Collection::create([
+      $collection = new \App\Models\Collection([
           'user_id'=> auth()->id(),
           'title' => $request->title,
           'description' => $request->description,
           'tag'=> $request->tag,
           'file_path'=>$file,
       ]);
+      $this->authorize('store', $collection);
+      $collection->save();
 
       return redirect()->route('dashboard');
     }
@@ -104,4 +118,15 @@ class CollectionController extends Controller
       return redirect()->route('dashboard');
     }
 
-}
+    public function toggle_like($collectionId){
+      $collection = \App\Models\Collection::findOrFail($collectionId);
+      $this->authorize('toggle_like', $collection);
+      if ($collection->liked()){
+        $collection->unlike();
+      }
+      else{
+        $collection->like();
+      }
+      return redirect()->back();
+    }
+  }

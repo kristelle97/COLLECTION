@@ -7,6 +7,22 @@
 
     <div class="py-12 justify-center">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+          <div>
+          @if ($errors->any())
+            <div class="bg-red-200 text-red-700 mb-4 rounded">
+              <div class="pl-8">
+              <p>Your Collection could not be created because:</p>
+                <ul class="list-disc">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+              </div>
+            </div>
+        @endif
+      </div>
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
               <div x-data={show:false}>
@@ -22,16 +38,12 @@
                     @csrf
                     <!-- Collection Name -->
                         <x-forms.form-group name="title" label="Title" id="collection-id" placeholder="Collection Title">
-                          @error('title')
-                              <div class="alert alert-danger">{{ $message }}</div>
-                          @enderror
+
                         </x-forms.form-group>
 
                         <!-- Collection Description -->
                         <x-forms.form-group name="description" label="Description" id="collection-description" placeholder="Collection Description" size="h-24">
-                          @error('description')
-                              <div class="alert alert-danger">{{ $message }}</div>
-                          @enderror
+
                         </x-forms.form-group>
 
                         <div class="md:flex md:justify-center mb-6">
@@ -40,7 +52,7 @@
 
                         <div class="md:flex md:justify-center mb-6">
                           <select id="collectionTag" name="tag" class="rounded border-none py-2 px-4 block whitespace-no-wrap hover:text-blue-500">
-                            <option>Type of Collection</option>
+                            <option value="" disabled selected hidden>Type of Collection</option>
                             @foreach ($tags['tags'] as $tag)
                               <option>{{$tag}}</option>
                             @endforeach
@@ -80,7 +92,24 @@
                                     <x-forms.delete-button :action="route('collection.destroy',['collectionId'=>$collection->id])"><i class="far fa-trash-alt"></i></x-forms.delete-button>
                                     <a href="{{route('collection.edit', $collection->id)}}" class="bg-transparent text-gray-400 font-semibold hover:text-blue-800 py-2 px-2"><i class="far fa-edit"></i></a>
                                     <a href="{{route('collection.item.index', $collection->id)}}" class="bg-transparent text-gray-400 font-semibold hover:text-blue-800 py-2 px-2"><i class="fas fa-expand"></i></a>
+                                    <div>
+                                        <form action="{{route('collection.like', $collection->id)}}" enctype="multipart/form-data" method="POST">
+                                          @csrf
+                                        <div class="flex flex-row bg-transparent text-gray-400 font-semibold hover:text-blue-800">
+                                          <button>
+                                            @if ($collection->liked())
+                                              <i class="fas fa-heart"></i>
+                                            @else
+                                              <i class="far fa-heart"></i>
+                                            @endif
+                                          </button>
+                                          <p>{{$collection->likeCount}}</p>
+                                        </div>
+                                      </form>
+                                    </div>
                                   </div>
+                                  </div>
+
                                 </div>
 
                         @endforeach
@@ -93,3 +122,7 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+
+</script>
