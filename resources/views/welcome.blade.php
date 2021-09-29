@@ -45,7 +45,7 @@
           </form>
 
               @if (count($collections) > 0)
-              <div class=" mb-6 grid lg:grid-cols-2 gap-4 grid-cols-1 mt-8">
+              <div class="mb-6 grid lg:grid-cols-2 gap-4 grid-cols-1 mt-8">
                   @foreach ($collections as $collection)
                         <div class=" w-full lg:max-w-full flex flex-wrap content-start shadow-lg rounded">
                           <div class="md:w-48 h-48 w-full">

@@ -1,34 +1,14 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
- // Display All Collections
-// Route::get('/', function () {
-//     return view('welcome');
-// })->name('welcome');
-
 Route::get('/', [CollectionController::class,'display_collections'])->name('welcome');
 
 Route::group(['middleware' => 'auth'], function () {
-
-    Route::get('/profile', function () {
-        return view('users/user-profile');
-    })->name('profile');
 
     Route::get('/dashboard', [CollectionController::class,'index'])->name('dashboard');
 
@@ -49,6 +29,11 @@ Route::group(['middleware' => 'auth'], function () {
       });
 
   });
+
+  Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+    Route::get('/profile', [RegisteredUserController::class,'edit'])->name('edit');
+    Route::post('/profile', [RegisteredUserController::class,'update'])->name('update');
+    });
 
 });
 

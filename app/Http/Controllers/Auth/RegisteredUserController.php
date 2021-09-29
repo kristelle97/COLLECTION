@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
@@ -31,7 +32,12 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    
+     public function index(Request $request){
+        return view('users/user-profile');
+     }
+    
+     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -54,5 +60,51 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function edit(){
+        $user = Auth::user();
+        $this->middleware('auth');
+        return view('users.edit', [
+            'user' => $user,
+        ]);
+    }
+  
+    public function update(Request $request){
+        $user = Auth::user();
+        $this->middleware('auth');
+
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($user->id),
+            ],
+            'profile-image'=>'image|mimes:jpeg,png,jpg,gif',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('user.edit')->withInput()->withErrors($validator);
+        }
+
+        if ($request->file('profile-image') == null){
+            $file = $user->file_path;
+        }
+        else{
+            $file = $request->file('profile-image')->store('profile','public');
+        }
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'file_path'=>$file,
+        ]);
+
+        flash('Profile Update Successfully')->success();
+
+        return redirect()->route('user.edit');
     }
 }

@@ -47,7 +47,7 @@
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
 
-                            <x-dropdown-link :href="route('profile')">
+                            <x-dropdown-link :href="route('user.edit')">
                                 {{ __('My Profile') }}
                             </x-dropdown-link>
                         </form>
@@ -96,7 +96,7 @@
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
 
-                    <x-responsive-nav-link :href="route('profile')">
+                    <x-responsive-nav-link :href="route('user.edit')">
                         {{ __('My Profile') }}
                     </x-responsive-nav-link>
                 </form>
