@@ -13,7 +13,7 @@ module.exports = {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
             backgroundImage: {
-                'hero-pattern': "url('/img/jezael-melgoza-layMbSJ3YOE-unsplash.jpg')",
+                'hero-pattern': "url('/img/posting_photos.svg')",
             },
             colors: {
                 blue: {

@@ -45,17 +45,13 @@
                                 </div>      
                             </div>
                             
-                            <div class="flex flex-wrap flex-grid-2 gap-4 justify-center items-center">
-
+                            <div class="flex flex-grid-2 gap-4 justify-center items-center">
                                 <div class="w-48 h-48">
                                 <img src="{{asset($user->file_path)}}" class="object-cover h-48 w-full rounded"></img>
                                 </div>
-
-                                <div class="md:flex md:justify-center mb-6 w-1/3">
-                                    <input type="file" name="profile-image">
-                                </div>
-
                             </div>
+
+                            <x-forms.image-upload name="collection-image"></x-forms.image-upload>
 
                             <!-- Update User Button -->
                             <div class="flex justify-center mt-4">

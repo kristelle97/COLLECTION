@@ -1,18 +1,5 @@
 <x-guest-layout>
         <div class="pl-8 pr-8">
-            <!-- @if (Route::has('login'))
-                <div class="fixed top-0 right-0 px-6 py-4 mb-8 sm:block">
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif -->
 
             <div class='flex mt-12 mb-4 justify-center'>
               <h1 class="text-2xl">All Users' Collections</h1>
@@ -20,8 +7,9 @@
 
             <form action="{{route('index')}}" enctype="multipart/form-data" method="GET">
             @csrf
-            <div class="flex justify-center mb-6">
-              <select id="collectionTag" name="tag" class="rounded border-none py-2 px-4 block whitespace-no-wrap hover:text-blue-500">
+            <div class='flex flex-col justify-center items-center'>
+            <div class="w-2/3 mb-6">
+              <select id="collectionTag" name="tag" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue">
                 <option value="" disabled selected hidden>Filter by Collection Type</option>
                 @foreach ($tags['tags'] as $tag)
                   <option @if ($tag==request()->tag) selected @endif>{{$tag}}</option>
@@ -29,8 +17,8 @@
               </select>
             </div>
 
-            <div class='flex flex-row justify-center items-center'>
-              <div>
+            <div class="flex flex-row items-center gap-4">
+            <div>
               <x-button><i class="fas fa-filter"></i> Filter</x-button>
             </div>
             <div>
@@ -38,6 +26,7 @@
               <a href="{{route('index')}}" class="bg-transparent text-gray-400 font-semibold hover:text-blue-800 py-2 px-2">Clear Filter</a>
               @endif
             </div>
+          </div>
           </div>
 
           </form>
