@@ -4,9 +4,13 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ItemController;
-use App\Http\Controllers\UserController;
 
-Route::get('/', [CollectionController::class,'display_collections'])->name('welcome');
+
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome');
+
+Route::get('/index', [CollectionController::class,'display_collections'])->name('index');
 
 Route::group(['middleware' => 'auth'], function () {
 

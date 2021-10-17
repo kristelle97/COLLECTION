@@ -59,7 +59,9 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('index');
+
+        // return redirect(RouteServiceProvider::HOME);
     }
 
     public function edit(){
@@ -83,6 +85,7 @@ class RegisteredUserController extends Controller
                 'max:255',
                 Rule::unique('users')->ignore($user->id),
             ],
+            'password' => ['nullable','confirmed', Rules\Password::defaults()],
             'profile-image'=>'image|mimes:jpeg,png,jpg,gif',
         ]);
 
@@ -100,6 +103,7 @@ class RegisteredUserController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            'password' => $request->password ? Hash::make($request->password) : $user->password,
             'file_path'=>$file,
         ]);
 

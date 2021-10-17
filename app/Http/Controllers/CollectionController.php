@@ -30,7 +30,7 @@ class CollectionController extends Controller
       $path = storage_path('json/collectiontypes.json');
       $json = trim(file_get_contents($path));
       $tags = json_decode($json, true);
-      return view('welcome', [
+      return view('collection.index', [
           'collections' => $collections,
           'tags' => $tags,
       ]);
@@ -41,8 +41,6 @@ class CollectionController extends Controller
       $path = storage_path('json/collectiontypes.json');
       $json = trim(file_get_contents($path));
       $tags = json_decode($json, true);
-
-      // dd($tags);
 
       $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
           'title' => 'required|max:255',
@@ -75,16 +73,21 @@ class CollectionController extends Controller
       $this->authorize('destroy', $collection);
       $collection->delete();
 
-      return redirect()->route('dashboard');
+      return redirect()->back();
     }
 
     public function edit($collectionId){
       $collection = \App\Models\Collection::findOrFail($collectionId);
       $this->authorize('edit', $collection);
 
+      $path = storage_path('json/collectiontypes.json');
+      $json = trim(file_get_contents($path));
+      $tags = json_decode($json, true);
+
       return view('collection.edit', [
           'collection' => $collection,
           'items'=>$collection->items,
+          'tags'=> $tags,
       ]);
     }
 
@@ -92,9 +95,14 @@ class CollectionController extends Controller
       $collection = \App\Models\Collection::findOrFail($collectionId);
       $this->authorize('update', $collection);
 
+      $path = storage_path('json/collectiontypes.json');
+      $json = trim(file_get_contents($path));
+      $tags = json_decode($json, true);
+
       $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
           'title' => 'required|max:255',
           'description'=>'required',
+          'tag'=>['required',in_array($request->tag,$tags)],
           'collection-image'=>'image|mimes:jpeg,png,jpg,gif',
       ]);
 
@@ -112,8 +120,11 @@ class CollectionController extends Controller
       $collection->update([
           'title' => $request->title,
           'description' => $request->description,
+          'tag'=> $request->tag,
           'file_path'=>$file,
       ]);
+
+      flash('Collection Updated Successfully')->success();
 
       return redirect()->route('dashboard');
     }

@@ -12,6 +12,16 @@ module.exports = {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
+            backgroundImage: {
+                'hero-pattern': "url('/img/jezael-melgoza-layMbSJ3YOE-unsplash.jpg')",
+            },
+            colors: {
+                blue: {
+                    light: '#3D4192',
+                    DEFAULT: '#252B86',
+                    dark: '#11166B',
+                  },
+            },
         },
     },
 

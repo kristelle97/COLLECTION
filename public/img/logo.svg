@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 2</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2">
+            <circle id="Oval" fill="#252B86" cx="50" cy="50" r="50"></circle>
+            <polygon id="Star" fill="#5D2D9B" points="49.9832971 60.4438669 37.6398068 66.9332238 39.9972037 53.1885454 30.0111102 43.4545101 43.8115519 41.4491885 49.9832971 28.9438669 56.1550422 41.4491885 69.9554839 43.4545101 59.9693905 53.1885454 62.3267874 66.9332238"></polygon>
+        </g>
+    </g>
+</svg>
