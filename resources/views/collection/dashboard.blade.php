@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12 justify-center">
+    <div class="py-12 mb-12 justify-center">
         <div class="max-w-7xl mx-auto px-8">
 
         @include('flash::message')
@@ -24,6 +24,8 @@
               </div>
             @endif
         </div>
+
+        <x-img-modal/>
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
@@ -44,7 +46,7 @@
                         </x-forms.form-group>
 
                         <div class="flex justify-center">
-                          <div class="mb-6 w-2/3">
+                          <div class="mb-6 lg:w-2/3 md:w-2/3 sm:w-full">
                               <label for="collectionTag" class="block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4">Tag</label>
                               <select id="collectionTag" name="tag" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-500 leading-tight focus:outline-none focus:bg-white focus:border-blue">
                                   <option value="" disabled selected hidden>Type of Collection</option>
@@ -58,7 +60,7 @@
                         <!-- Collection Description -->
                         <x-forms.form-group name="description" label="Description" id="collection-description" placeholder="Collection Description" size="h-24"></x-forms.form-group>
 
-                        <x-forms.image-upload name="collection-image"></x-forms.image-upload>
+                        <x-forms.image-upload name="collection-image" title="Collection Image"></x-forms.image-upload>
 
                         <!-- Add Collection Button -->
                         <x-forms.submit-button>Create Collection</x-forms.submit-button>
@@ -68,15 +70,16 @@
                 </div>
 
                     @if (count($collections) > 0)
-                    <div class="mb-6 grid lg:grid-cols-3 md:grid-cols-2 gap-4 grid-cols-1 mt-8">
+                    <div class="p-4 mb-6 grid lg:grid-cols-3 md:grid-cols-2 gap-4 grid-cols-1 mt-8" x-data="{}">
                         @foreach ($collections as $collection)
 
                         <div class=" w-full lg:max-w-full flex flex-col shadow-lg rounded h-auto">
                           <div class="relative h-48 w-full">
-                            <div class="absolute top-5 left-5 text-xs font-semibold tracking-wide uppercase">
+                            <div class="absolute top-5 left-5 text-xs font-semibold tracking-wide uppercase z-10">
                                 <span class="p-1 px-2 bg-yellow-100 rounded-full bg-cover">{{$collection->tag}}</span>
                               </div>
-                             <img src="{{asset($collection->file_path)}}" class="object-cover h-48 w-full"></img>
+                              <div  x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{asset($collection->file_path)}}', imgModalDesc: '{{$collection->title}}' })" class="absolute inset-0 cursor-pointer z-20"></div>
+                             <img src="{{asset($collection->file_path)}}" class="object-cover h-48 w-full z-0"/>
                           </div>
 
                           <div class="flex flex-grow items-stretch">

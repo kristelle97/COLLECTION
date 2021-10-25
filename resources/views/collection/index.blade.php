@@ -1,9 +1,11 @@
 <x-guest-layout>
-        <div class="pl-8 pr-8">
+        <div class="py-12 px-8 mb-12">
 
             <div class='flex mt-12 mb-4 justify-center'>
               <h1 class="text-2xl">All Users' Collections</h1>
             </div>
+
+            <x-img-modal/>
 
             <form action="{{route('index')}}" enctype="multipart/form-data" method="GET">
             @csrf
@@ -31,15 +33,18 @@
 
           </form>
 
+          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
               @if (count($collections) > 0)
-              <div class="px-4 mb-6 grid lg:grid-cols-3 md:grid-cols-2 gap-4 grid-cols-1 mt-8">
+              <div class="px-4 mb-6 grid lg:grid-cols-3 md:grid-cols-2 gap-4 grid-cols-1 mt-8" x-data="{}">
                   @foreach ($collections as $collection)
                         <div class=" w-full lg:max-w-full flex flex-col shadow-lg rounded h-auto">
                           <div class="relative h-48 w-full">
                             <div class="absolute top-5 left-5 text-xs font-semibold tracking-wide uppercase">
-                                <span class="p-1 px-2 bg-yellow-100 rounded-full bg-cover">{{$collection->tag}}</span>
+                                <span class="p-1 px-2 bg-yellow-100 rounded-full bg-cover z-10">{{$collection->tag}}</span>
                               </div>
-                             <img src="{{asset($collection->file_path)}}" class="object-cover h-48 w-full"></img>
+                              <div  x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{asset($collection->file_path)}}', imgModalDesc: '{{$collection->title}}' })" class="absolute inset-0 cursor-pointer z-20"></div>
+                              <img src="{{asset($collection->file_path)}}" class="object-cover h-48 w-full z-0"/>
                           </div>
 
                           <div class="flex flex-grow items-stretch">
@@ -52,8 +57,9 @@
                               
 
                               <div class="flex flex-row items-end flex-grow mt-4">
-                                <div class="flex items-center">
-                                <img class="rounded-full w-12 h-12" src="{{asset($collection->user->file_path)}}"></img>
+                                <div class="relative flex items-center">
+                                  <div  x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{asset($collection->user->file_path)}}', imgModalDesc: '{{$collection->user->name}}' })" class="absolute inset-0 cursor-pointer z-20"></div>
+                                  <img class="rounded-full w-12 h-12" src="{{asset($collection->user->file_path)}}"/>
                                 <div class="text-sm mt-4 pl-4">
                                   <p class="text-gray-900 leading-none">{{$collection->user->name}}</p>
                                   <p class="text-gray-600">{{$collection->created_at}}</p>
@@ -94,6 +100,7 @@
               <p>No Items Created</p>
               
             @endif
+                        </div>
                   </div>
                 </div>
                 </div>

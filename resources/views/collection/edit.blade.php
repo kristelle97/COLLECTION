@@ -6,7 +6,7 @@
     </x-slot>
 
 
-    <div class="py-12">
+    <div class="py-12 mb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div>
                 @if ($errors->any())
@@ -23,6 +23,8 @@
                 @endif
             </div>
 
+            <x-img-modal/>
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
@@ -36,7 +38,7 @@
                         <x-forms.form-group name="description" label="Description" id="collection-description" placeholder="{{$collection->description}}" value="{{$collection->description}}"></x-forms.form-group>
                         
                         <div class="flex justify-center">
-                            <div class="mb-6 w-2/3">
+                            <div class="mb-6 lg:w-2/3 md:w-2/3 sm:w-full">
                                 <label for="collectionTag" class="block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4">Tag</label>
                                 <select id="collectionTag" name="tag" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-500 leading-tight focus:outline-none focus:bg-white focus:border-blue">
                                     <option value="{{$collection->tag}}" selected >{{$collection->tag}}</option>
@@ -47,13 +49,14 @@
                             </div>
                         </div>
                         
-                        <div class="flex justify-center items-center gap-4 mb-6">
+                        <div class="relative flex justify-center items-center gap-4 mb-6" x-data="{}">
                             <div class="w-48 h-48">
-                            <img src="{{asset($collection->file_path)}}" class="object-cover h-48 w-full rounded"></img>
+                                <div  x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{asset($collection->file_path)}}', imgModalDesc: '{{$collection->title}}' })" class="absolute inset-0 cursor-pointer z-20"></div>
+                                <img src="{{asset($collection->file_path)}}" class="object-cover h-48 w-full rounded"></img>
                             </div>
                         </div>
 
-                        <x-forms.image-upload name="collection-image"></x-forms.image-upload>
+                        <x-forms.image-upload name="collection-image" title="Collection Image"></x-forms.image-upload>
 
                         <!-- Update Collection Button -->
                         <div class="flex justify-center">

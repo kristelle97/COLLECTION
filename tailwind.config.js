@@ -13,7 +13,7 @@ module.exports = {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
             backgroundImage: {
-                'hero-pattern': "url('/img/posting_photos.svg')",
+                'hero-pattern': "url('/img/koolekt-img.svg')",
             },
             colors: {
                 blue: {
@@ -21,6 +21,9 @@ module.exports = {
                     DEFAULT: '#252B86',
                     dark: '#11166B',
                   },
+                purple: {
+                    DEFAULT: '#7B1CF5',
+                },
             },
         },
     },

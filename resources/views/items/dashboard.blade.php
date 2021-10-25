@@ -10,7 +10,9 @@
       </div>
     </x-slot>
 
-    <div class="py-12">
+    <x-img-modal/>
+
+    <div class="py-12 mb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
@@ -40,7 +42,7 @@
                         @enderror
                       </x-forms.form-group>
 
-                      <x-forms.image-upload name="item-image"></x-forms.image-upload>
+                      <x-forms.image-upload name="item-image" title="Item Image"></x-forms.image-upload>
 
                       <!-- Add Task Button -->
                       <x-forms.submit-button>Create Item</x-forms.submit-button>
@@ -49,13 +51,14 @@
               </div>
               @endif
 
-              <div class="px-4 py-4 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+              <div class="px-4 py-4 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8" x-data='{}'>
                 <div class="grid gap-8 lg:grid-cols-3 sm:max-w-sm sm:mx-auto lg:max-w-full">
                   @if (count($items) > 0)
                       @foreach ($items as $item)
                         <div class=" w-full lg:max-w-full flex flex-col shadow-lg rounded h-auto">
                           <div class="relative h-48 w-full">
-                             <img src="{{asset($item->file_path)}}" class="object-cover h-48 w-full"></img>
+                            <div  x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{asset($item->file_path)}}', imgModalDesc: '{{$item->title}}' })" class="absolute inset-0 cursor-pointer z-20"></div>
+                             <img src="{{asset($item->file_path)}}" class="object-cover h-48 w-full"/>
                           </div>
 
                           <div class="flex flex-grow items-stretch">
@@ -88,7 +91,7 @@
                                   @csrf
                                 <div class="flex flex-row bg-transparent text-gray-400 font-semibold hover:text-blue-800">
                                   <button>
-                                    @if ($collection->liked())
+                                    @if ($item->liked())
                                       <i class="fas fa-heart"></i>
                                     @else
                                       <i class="far fa-heart"></i>

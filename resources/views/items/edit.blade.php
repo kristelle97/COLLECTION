@@ -8,11 +8,13 @@
     </div>
     </x-slot>
 
+    <x-img-modal/>
+
     <div class="pt-6">
         <a href="{{url()->previous()}}" class="bg-transparent text-gray-400 font-semibold hover:text-blue-800 px-12">Back</a>
     </div>
 
-    <div class="py-6">
+    <div class="py-12 mb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
@@ -27,13 +29,14 @@
 
                         <x-forms.form-group name="description" label="Description" id="item-description" placeholder="{{$item->description}}" value="{{$item->description}}"></x-forms.form-group>
 
-                        <div class="flex justify-center items-center gap-4">
+                        <div class="relative flex justify-center items-center gap-4" x-data="{}">
                             <div class="w-48 h-48">
-                            <img src="{{asset($item->file_path)}}" class="object-cover h-48 w-full"></img>
+                                <div  x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{asset($item->file_path)}}', imgModalDesc: '{{$item->title}}' })" class="absolute inset-0 cursor-pointer z-20"></div>
+                                <img src="{{asset($item->file_path)}}" class="object-cover h-48 w-full"/>
                             </div>
                         </div>
 
-                        <x-forms.image-upload name="item-image"></x-forms.image-upload>
+                        <x-forms.image-upload name="item-image" title="Item Image"></x-forms.image-upload>
 
                         <div class="flex justify-center mt-4">
                           <form action="{{route('collection.item.update',[$collection->id, $item->id])}}" method="POST">

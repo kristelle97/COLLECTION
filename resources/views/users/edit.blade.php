@@ -5,7 +5,9 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <x-img-modal/>
+
+    <div class="py-12 mb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
         @include('flash::message')
@@ -45,13 +47,14 @@
                                 </div>      
                             </div>
                             
-                            <div class="flex flex-grid-2 gap-4 justify-center items-center">
-                                <div class="w-48 h-48">
-                                <img src="{{asset($user->file_path)}}" class="object-cover h-48 w-full rounded"></img>
+                            <div class="flex flex-grid-2 gap-4 justify-center items-center" x-data="{}">
+                                <div class="relative w-48 h-48">
+                                    <div  x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{asset($user->file_path)}}', imgModalDesc: '{{$user->name}}' })" class="absolute inset-0 cursor-pointer z-20"></div>  
+                                    <img src="{{asset($user->file_path)}}" class="object-cover h-48 w-full rounded"></img>
                                 </div>
                             </div>
 
-                            <x-forms.image-upload name="collection-image"></x-forms.image-upload>
+                            <x-forms.image-upload name="collection-image" title="Profile Picture"></x-forms.image-upload>
 
                             <!-- Update User Button -->
                             <div class="flex justify-center mt-4">
