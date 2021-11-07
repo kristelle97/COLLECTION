@@ -97,7 +97,7 @@
                   @endforeach
 
             @else
-              <p class="text-gray-500 rounded hover:text-blue-500 px-8 pt-4 pb-2 cursor-pointer focus:outline-none mr-2">No Items Created</p>
+              <p class="text-gray-500 rounded px-8 pt-2 pb-2 mr-2">No Items Created</p>
             @endif
                         </div>
                   </div>
