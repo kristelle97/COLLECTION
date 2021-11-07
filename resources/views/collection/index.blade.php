@@ -33,7 +33,7 @@
 
           </form>
 
-          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+          <div class="mt-12 bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
               @if (count($collections) > 0)
               <div class="px-4 mb-6 grid lg:grid-cols-3 md:grid-cols-2 gap-4 grid-cols-1 mt-8" x-data="{}">
@@ -97,12 +97,10 @@
                   @endforeach
 
             @else
-              <p>No Items Created</p>
-              
+              <p class="text-gray-500 rounded hover:text-blue-500 px-8 pt-4 pb-2 cursor-pointer focus:outline-none mr-2">No Items Created</p>
             @endif
                         </div>
                   </div>
                 </div>
-                </div>
-          </div>
+        
 </x-guest-layout>
