@@ -44,7 +44,7 @@
                                 <span class="p-1 px-2 bg-yellow-100 rounded-full bg-cover z-10">{{$collection->tag}}</span>
                               </div>
                               <div  x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{asset($collection->file_path)}}', imgModalDesc: '{{$collection->title}}' })" class="absolute inset-0 cursor-pointer z-20"></div>
-                              <img src="{{storage($collection->file_path)}}" class="object-cover h-48 w-full z-0"/>
+                              <img src="{{Storage::url($collection->file_path)}}" class="object-cover h-48 w-full z-0"/>
                           </div>
 
                           <div class="flex flex-grow items-stretch">
