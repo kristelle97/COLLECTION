@@ -31,8 +31,8 @@
 
                         <div class="relative flex justify-center items-center gap-4" x-data="{}">
                             <div class="w-48 h-48">
-                                <div  x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{asset($item->file_path)}}', imgModalDesc: '{{$item->title}}' })" class="absolute inset-0 cursor-pointer z-20"></div>
-                                <img src="{{asset($item->file_path)}}" class="object-cover h-48 w-full"/>
+                                <div  x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{Storage::url($item->file_path)}}', imgModalDesc: '{{$item->title}}' })" class="absolute inset-0 cursor-pointer z-20"></div>
+                                <img src="{{Storage::url($item->file_path)}}" class="object-cover h-48 w-full"/>
                             </div>
                         </div>
 

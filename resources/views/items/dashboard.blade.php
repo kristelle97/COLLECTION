@@ -57,8 +57,8 @@
                       @foreach ($items as $item)
                         <div class=" w-full lg:max-w-full flex flex-col shadow-lg rounded h-auto">
                           <div class="relative h-48 w-full">
-                            <div  x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{asset($item->file_path)}}', imgModalDesc: '{{$item->title}}' })" class="absolute inset-0 cursor-pointer z-20"></div>
-                             <img src="{{asset($item->file_path)}}" class="object-cover h-48 w-full"/>
+                            <div  x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{Storage::url($item->file_path)}}', imgModalDesc: '{{$item->title}}' })" class="absolute inset-0 cursor-pointer z-20"></div>
+                             <img src="{{Storage::url($item->file_path)}}" class="object-cover h-48 w-full"/>
                           </div>
 
                           <div class="flex flex-grow items-stretch">
@@ -72,7 +72,7 @@
 
                               <div class="flex flex-row items-end flex-grow mt-4">
                                 <div class="flex items-center">
-                                <img class="rounded-full w-12 h-12" src="{{asset($collection->user->file_path)}}"></img>
+                                <img class="rounded-full w-12 h-12" src="{{Storage::url($collection->user->file_path)}}"></img>
                                 <div class="text-sm mt-4 pl-4">
                                   <p class="text-gray-900 leading-none">{{$collection->user->name}}</p>
                                   <p class="text-gray-600">{{$item->created_at}}</p>

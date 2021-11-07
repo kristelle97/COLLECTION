@@ -78,8 +78,8 @@
                             <div class="absolute top-5 left-5 text-xs font-semibold tracking-wide uppercase z-10">
                                 <span class="p-1 px-2 bg-yellow-100 rounded-full bg-cover">{{$collection->tag}}</span>
                               </div>
-                              <div  x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{asset($collection->file_path)}}', imgModalDesc: '{{$collection->title}}' })" class="absolute inset-0 cursor-pointer z-20"></div>
-                             <img src="{{asset($collection->file_path)}}" class="object-cover h-48 w-full z-0"/>
+                              <div  x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{Storage::url($collection->file_path)}}', imgModalDesc: '{{$collection->title}}' })" class="absolute inset-0 cursor-pointer z-20"></div>
+                             <img src="{{Storage::url($collection->file_path)}}" class="object-cover h-48 w-full z-0"/>
                           </div>
 
                           <div class="flex flex-grow items-stretch">
@@ -93,7 +93,7 @@
 
                               <div class="flex flex-row items-end flex-grow mt-4">
                                 <div class="flex items-center">
-                                <img class="rounded-full w-12 h-12" src="{{asset($collection->user->file_path)}}"></img>
+                                <img class="rounded-full w-12 h-12" src="{{Storage::url($collection->user->file_path)}}"></img>
                                 <div class="text-sm mt-4 pl-4">
                                   <p class="text-gray-900 leading-none">{{$collection->user->name}}</p>
                                   <p class="text-gray-600">{{$collection->created_at}}</p>
